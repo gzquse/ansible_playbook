@@ -10,4 +10,6 @@ ansible-playbook task1.yaml -i inventory
 ansible all -m apt -a "name=snapd state=latest" --become -i inventory
 
 ansible all -m apt -a "upgrade=dist" --become -i inventory 
+
+ansible-playbook install_apache.yaml -i inventory
 ```
