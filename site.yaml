@@ -2,14 +2,21 @@
 
 - hosts: all
   become: true
-  tasks:
+  pre_tasks:
 
   - name: update repository index
+    tags: always
     apt:
       update-cache: yes
+      upgrade: dist
     when: ansible_distribution in ["Debian, Ubuntu"]
 
+- hosts: web_server
+  become: true
+
+  tasks:
   - name: install apache2 package
+    tags: ubuntu
     apt:
       name: apache2
       state: latest
@@ -17,4 +24,14 @@
   - name: add php support for apache
     apt:
       name: libapache2-mod-php
+      state: latest
+
+- hosts: db_servers
+  become: true
+
+  tasks:
+  - name: install mariadb package
+    tags: db
+    apt:
+      name: mariadb-server
       state: latest

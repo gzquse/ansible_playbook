@@ -14,4 +14,8 @@ ansible all -m apt -a "upgrade=dist" --become -i inventory
 ansible-playbook install_apache.yaml -i inventory
 
 ansible all -i inventory -m gather_facts | grep ansible_distribution
+
+ansible-playbook --list-tags site.yaml 
+
+ansible-playbook site.yaml -i inventory --tags db
 ```
