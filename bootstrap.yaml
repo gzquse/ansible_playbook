@@ -1,0 +1,36 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: update repository index
+    tags: always
+    apt:
+      update-cache: yes
+    changed_when: false
+    when: ansible_distribution in ["Debian, Ubuntu"]
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create simone user
+    tags: always
+    user:
+      name: simone
+      groups: root
+
+  - name: add ssh key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDtt7c25jnXjUTn48c6TshUljs0vndn4ixVN6z5NCaf4EoPIHYOBxHLXYAHKtiwqJ7ZHXjaAEA8oiQxHLgwRXiRxBnUokX1XtTZTVHxWI4ZzVpr4QzKNRZKVHkh8BgjANhrDsT2bpEGzv1b/eq1cWrVUa11JCDJCsbX0PFOSFBwJO41sxtI5vRETZYDOqn97BoJL9W8ss3ih2hvQFFhKjZZVgvkHupxVOX00k6IbtaYQbNxoc421fS/rThgQA15+VmYhv1X3v7qxodspJdXzc/px7COMHdAYr8ifHQdC8RCMmZvfbTgf4VMIXC1H98pFXsQHHcyMH1EFCPHZT15GNdHiP21R+q8bAJOIDxpIT4duO4RaQOIZkQP1dzvjF/xifI+HvTg23IXBBSArv6qsHnOTAHJEG8iCBQ5iBJX4uB2aMPFEfjM5zRJBFpK8ezc3TKiAnV+ZiMnPITXTmQj2wodNUfM5gBBV9YAIPl8tfPM/w6l+k971JgwPMO+M9UK5XbDdq6RDoTxQELQuAGEh1pesPc0gB2jCcALRduF39qPXlZMhg553FOM4r9NeVcvUMy+stZzvh/clanMZB4vvX7YsC78v6xEmU46f3W/J8fU/DDzXgVEvB30SOaWv8EEZwOp1NOncXkujesDbd23DvoVC1zFF6sZ0VlQy9hizY4vUQ== ziqguo@ZIQGUO-M-F5L2"
+
+  - name: add sudoers file for simone
+    tags: always
+    copy:
+      src: sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root

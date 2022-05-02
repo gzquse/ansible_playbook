@@ -18,4 +18,6 @@ ansible all -i inventory -m gather_facts | grep ansible_distribution
 ansible-playbook --list-tags site.yaml 
 
 ansible-playbook site.yaml -i inventory --tags db
+
+ssh -i ~/.ssh/id_rsa simone@10.225.17.134
 ```
